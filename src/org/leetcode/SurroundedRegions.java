@@ -2,6 +2,7 @@ package org.leetcode;
 
 public class SurroundedRegions {
 
+	//Wrong algo.
 	public void solve(char[][] board) {
 		int i = 0, j = 0;
 		for(i = 0 ; i < board.length ; i++){
