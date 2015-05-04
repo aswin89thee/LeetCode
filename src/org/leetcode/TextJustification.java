@@ -11,7 +11,7 @@ Input:	[""], 2
 Output:	[""]
 Expected:	["  "]
 	 * 
-	 * I don't understand why that is wrong though. This program works for some of the test cases I wrote.
+	 * I don't understand why that is wrong though. This program works for the test cases I wrote.
 	 */
 	public List<String> fullJustify(String[] words, int maxWidth) {
         List<String> wordList = new ArrayList<String>();
