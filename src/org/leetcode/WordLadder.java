@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+//Wrong answer
 public class WordLadder {
 	
 	private Map<String,Integer> stsMap = new HashMap<String,Integer>();
