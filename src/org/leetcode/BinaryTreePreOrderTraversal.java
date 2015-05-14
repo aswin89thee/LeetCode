@@ -7,8 +7,26 @@ import java.util.Map;
 import java.util.Stack;
 
 public class BinaryTreePreOrderTraversal {
-
+	
 	public List<Integer> preorderTraversal(TreeNode root) {
+		List<Integer> list = new ArrayList<Integer>();
+		if(root == null) return list;
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		stack.add(root);
+		while(!stack.isEmpty()){
+			root = stack.pop();
+			list.add(root.val);
+			if(root.right != null){
+				stack.add(root.right);
+			}
+			if(root.left != null){
+				stack.add(root.left);
+			}
+		}
+		return list;
+	}
+
+	public List<Integer> preorderTraversal2(TreeNode root) {
 		List<Integer> list = new ArrayList<Integer>();
 		if(root == null) return list;
 		Stack<TreeNode> stack = new Stack<TreeNode>();
