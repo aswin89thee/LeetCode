@@ -50,6 +50,22 @@ public class BinaryTreePreOrderTraversal {
 		
 		return list;
 	}
+	
+	public List<Integer> preorderTraversal3(TreeNode root)
+	{
+		List<Integer> list = new ArrayList<Integer>();
+		recursePreorder(root,list);
+		return list;
+	}
+
+	private void recursePreorder(TreeNode root, List<Integer> list) 
+	{
+		if(root == null || list == null)
+			return;
+		list.add(root.val);
+		recursePreorder(root.left, list);
+		recursePreorder(root.right, list);
+	}
 
 	public static void main(String[] args) {
 		BinaryTreePreOrderTraversal obj = new BinaryTreePreOrderTraversal();
@@ -57,7 +73,7 @@ public class BinaryTreePreOrderTraversal {
 		TreeNode node2 = new TreeNode(1);
 		TreeNode node3 = new TreeNode(2);
 		node1.left = node2; node1.right = node3;
-		List<Integer> list = obj.preorderTraversal(node1);
+		List<Integer> list = obj.preorderTraversal3(node1);
 		for(int i=0; i<list.size(); i++){
 			System.out.print(list.get(i) + " ");
 			
