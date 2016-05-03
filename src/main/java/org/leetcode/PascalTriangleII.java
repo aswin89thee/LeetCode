@@ -15,19 +15,19 @@ Could you optimize your algorithm to use only O(k) extra space?
  */
 public class PascalTriangleII {
 	
-	//Accepted solution. 11 ms runtime 
-	//Note: This is a slow solution, since BigDecimal operations are slow
+	//Accepted solution. 1 ms runtime 
+	//I'm using this formula:
+	//pascal[n][r] = pascal[n][r-1] * (n-r+1) / r
 	public List<Integer> getRow(int rowIndex)
 	{
 		List<Integer> row = new ArrayList<Integer>();
 		row.add(1);
 		for(int i = 1 ; i < rowIndex ; i++)
 		{
-			BigDecimal bd1 = new BigDecimal(row.get(i - 1));
-			BigDecimal bd2 = new BigDecimal(rowIndex - i + 1);
-			BigDecimal bd3 = new BigDecimal(i);
-			BigDecimal bdelt = bd1.multiply(bd2).divide(bd3);
-			row.add(bdelt.intValue());
+			double factor = (rowIndex - i + 1)/(double)i;
+			double elt = row.get(i - 1) * factor;
+			int val = (int)Math.round(elt);
+			row.add(val);
 		}
 		if(row.size() == rowIndex)
 			row.add(1);
@@ -36,7 +36,7 @@ public class PascalTriangleII {
 
 	public static void main(String[] args) {
 		PascalTriangleII obj = new PascalTriangleII();
-		System.out.println(obj.getRow(30));
+		System.out.println(obj.getRow(0));
 	}
 
 }
