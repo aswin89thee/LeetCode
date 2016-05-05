@@ -3,85 +3,122 @@ package org.leetcode;
 import java.util.HashMap;
 import java.util.Map;
 
-//Time limit exceeded
-public class LRUCache {
-	int[] lruList;
-	Map<Integer,Integer> keyMap;
-	int capacity;
-	int curCapacity;
+/*
+ * 
+ * Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and set.
 
-	public LRUCache(int capacity) {
-		lruList = new int[capacity];
-		keyMap = new HashMap<Integer,Integer>();
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+set(key, value) - Set or insert the value if the key is not already present. 
+When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+ *
+ */
+
+//Accepted solution. 16 ms runtime
+class LruNode
+{
+	int key;
+	int val;
+	LruNode next;
+	LruNode prev;
+	public LruNode(int k, int v){this.key = k; this.val = v;}
+}
+
+public class LRUCache
+{
+	protected int capacity = 0;
+	protected LruNode head = null;
+	protected LruNode tail = null;
+	Map<Integer,LruNode> map = new HashMap<Integer,LruNode>();
+
+	public LRUCache(int capacity)
+	{
 		this.capacity = capacity;
-		curCapacity = 0;
 	}
 
-	public int get(int key) {
-		Integer val = keyMap.get(key);
-		if(val == null) return -1;
-		//Key is valid. Lets move it to the top of the list
-		int i;
-		if(capacity > 1){
-			for(i = 0 ; i < lruList.length ; i++){
-				if(lruList[i] == key) break;
-			}
-			for(int j = i; j > 0 ; j--){
-				lruList[j] = lruList[j-1];
-			}
-		}
-		lruList[0] = key;
-		return val;
+	public int get(int key)
+	{
+		LruNode node = map.get(key);
+		if(node == null)
+			return -1;
+		makeNodeHead(node);
+		return node.val;
 	}
-
-	public void set(int key, int value) {
-		boolean alreadyPresent = keyMap.containsKey(key);
-		int i;
-		keyMap.put(key, value);
-		if(curCapacity < capacity){
-			lruList[curCapacity] = key;
-			curCapacity++;
+	
+	private void makeNodeHead(LruNode node)
+	{
+		if(node == head)
+			return;
+		if(map.size() == 2)
+		{
+			//node is the tail. So swap head and tail
+			LruNode temp = head;
+			head = tail;
+			tail = temp;
+			head.next = tail;
+			tail.prev = head;
+			head.prev = null;
+			tail.next = null;
 			return;
 		}
-		if(!alreadyPresent){
-			if(capacity > 1){
-				keyMap.remove(lruList[lruList.length-1]);
-				for(i = capacity-1 ; i > 0 ; i--){
-					lruList[i] = lruList[i-1];
-				}
-			}
-			lruList[0] = key;
-		}else{
-			//already present. Simply move it to the top of the queue
-			if(capacity > 1){
-				for(i = 0 ; i < lruList.length ; i++){
-					if(lruList[i] == key) break;
-				}
-				for(int j = i; j > 0 ; j--){
-					lruList[j] = lruList[j-1];
-				}
-			}
-			lruList[0] = key;
+		LruNode prev = node.prev;
+		LruNode next = node.next;
+		node.next = head;
+		node.prev = null;
+		head.prev = node;
+		head = node;
+		prev.next = next;
+		if(next != null)
+			next.prev = prev;
+		else
+			tail = prev;
+	}
+
+	public void set(int key, int value)
+	{
+		LruNode node = map.get(key);
+		if(node != null)
+		{
+			node.val = value;
+			makeNodeHead(node);
+			return;
+		}
+		node = new LruNode(key, value);
+		map.put(key, node);
+		if(map.size() == 1)
+		{
+			head = tail = node;
+			return;
+		}
+		node.next = head;
+		node.prev = null;
+		head.prev = node;
+		head = node;
+		if(map.size() >= this.capacity + 1)
+		{
+			map.remove(tail.key);
+			LruNode prev = tail.prev;
+			prev.next = null;
+			tail = prev;
 		}
 	}
 
 	public static void main(String[] args) {
-		LRUCache obj = new LRUCache(3);
+		//Expect 1,-1,3
+//		LRUCache obj = new LRUCache(1);
+//		obj.set(2,1);
+//		System.out.println(obj.get(2));
+//		obj.set(3,3);
+//		System.out.println(obj.get(2));
+//		System.out.println(obj.get(3));
+
+		//Expect [1,-1,1]
+		LRUCache obj = new LRUCache(2);
+		obj.set(2,1);
 		obj.set(1,1);
-		obj.set(2,2);
-		obj.set(3,3);
-		obj.set(4,4);
-		obj.get(4);
-		obj.get(3);
-		obj.get(2);
-		obj.get(1);
-		obj.set(5,5);
-		obj.get(1);
-		obj.get(2);
-		obj.get(3);
-		obj.get(4);
-		obj.get(5);
-		
+		System.out.println(obj.get(2));
+		obj.set(4,1);
+		System.out.println(obj.get(1));
+		System.out.println(obj.get(2));
 	}
 
 }
