@@ -1,49 +1,37 @@
 package org.leetcode;
 
-public class LongestPalindrome {
+public class LongestPalindrome
+{
 
-	public String longestPalindrome(String s) {
-		String longestPal = s.charAt(0) + "";
-		if(s.length() == 2){
-			if(s.charAt(0) == s.charAt(1))
-				return s;
-		}
-		int longest = 0;
-		for(int i = 0 ; i < s.length() ; i++){
-			int curLength = 1;
-			if((i<s.length()-1) && s.charAt(i) == s.charAt(i+1)){
-				curLength = 2;
-				if(longest < 2){
-					longest = 2;
-					longestPal = s.charAt(i) + "" + s.charAt(i+1);
-				}
-				int a = i, b = i+1;
-				for(int j = 1 ; ; j++){
-					if(a-j < 0) break;
-					if(b+j >= s.length()) break;
-					if(s.charAt(a-j) == s.charAt(b+j)){
-						curLength += 2;
-						if(curLength > longest){
-							longest = curLength;
-							longestPal = s.substring(a-j, b+j+1);
-						}
-					}
-				}
-			}else{
-				for(int j = 1; ;j++){
-					if(i-j < 0) break;
-					if(i+j >= s.length()) break;
-					if(s.charAt(i-j) == s.charAt(i+j)){
-						curLength += 2;
-						if(curLength > longest){
-							longest = curLength;
-							longestPal = s.substring(i-j, i+j+1);
-						}
-					}
-				}
+	//O(n^2) runtime and O(1) space solution. Time limit exceeded
+	public String longestPalindrome(String s)
+	{
+		if(s == null || s.isEmpty() || s.length() == 1)
+			return s;
+		String longestPal = "";
+		for(int i = 0 ; i < s.length() ; i++)
+		{
+			String oddPal = getLongestPalindromeInRange(s, i, i);
+			String longestPalAtI = oddPal;
+			if(i != s.length() - 1 && s.charAt(i) == s.charAt(i + 1))
+			{
+				String evenPal = getLongestPalindromeInRange(s, i, i + 1);
+				longestPalAtI = evenPal.length() > oddPal.length() ? evenPal : oddPal;
 			}
+			longestPal = longestPalAtI.length() > longestPal.length() ? longestPalAtI : longestPal;
 		}
-
+		return longestPal;
+	}
+	
+	private String getLongestPalindromeInRange(String s, int start, int end)
+	{
+		String longestPal = "";
+		while(start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end))
+		{
+			longestPal = s.substring(start, end + 1);
+			start--;
+			end++;
+		}
 		return longestPal;
 	}
 
