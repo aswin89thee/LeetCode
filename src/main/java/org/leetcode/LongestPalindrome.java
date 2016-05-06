@@ -2,9 +2,38 @@ package org.leetcode;
 
 public class LongestPalindrome
 {
-
-	//O(n^2) runtime and O(1) space solution. Time limit exceeded
+	
+	//Dynamic programming solution. Still time limit exceeded
 	public String longestPalindrome(String s)
+	{
+		if(s == null || s.length() <= 1)
+			return s;
+		String longestPal = "";
+		int len = s.length();
+		int[][] pals = new int[len][len];
+		for(int i = 0 ; i < len ; i++)
+		{
+			for(int j = 0 ; i+j < len ; j++)
+			{
+				int k = i+j;
+				if(k == j)
+				{
+					pals[j][k] = 1;
+					continue;
+				}
+				if(s.charAt(k) != s.charAt(j) || (j+1 < k-1 && pals[j+1][k - 1] != 1))
+					continue;
+				pals[j][k] = 1;
+				if(k - j + 1 > longestPal.length())
+					longestPal = s.substring(j,k+1);
+			}
+		}
+		return longestPal;
+	}
+	
+	
+	//O(n^2) runtime and O(1) space solution. Time limit exceeded
+	public String longestPalindrome2(String s)
 	{
 		if(s == null || s.isEmpty() || s.length() == 1)
 			return s;
@@ -35,10 +64,16 @@ public class LongestPalindrome
 		return longestPal;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		LongestPalindrome obj = new LongestPalindrome();
-		String str = "aaaa";
-		System.out.println("Longest palindrome is " + obj.longestPalindrome(str));
+		String str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+		long start = System.currentTimeMillis();
+		String longestPal = obj.longestPalindrome(str);
+		long end = System.currentTimeMillis();
+		System.out.println("Longest palindrome is " + longestPal);
+		System.out.println("Length of longest palindrome : " + longestPal.length());
+		System.out.println("Time to compute longest palindrome : " + (end-start) + " ms");
 	}
 
 }
