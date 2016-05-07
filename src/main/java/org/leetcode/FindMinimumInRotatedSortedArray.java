@@ -11,6 +11,7 @@ You may assume no duplicate exists in the array.
  */
 public class FindMinimumInRotatedSortedArray
 {
+	//Accepted solution - 1 ms runtime
 	public int findMin(int[] nums)
 	{
 		int lo = 0;
