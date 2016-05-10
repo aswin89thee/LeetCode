@@ -48,9 +48,9 @@ public class SearchA2DMatrixII
 		return false;
 	}
 
-	//Accepted solution with 212 ms runtime
-	//I came up with this approach after overthinking it, although this isn't any good
-	//This is just a fancy way of doing O(n^2) search
+	//Accepted solution with 76 ms runtime
+	//I came up with this approach after overthinking it. This is a divide-and-conquer approach, but this is slower than above solution
+	//This is slightly better than O(n^2) search, since it skips the first quadrant if the target is greater than the matrix[midrow][midcol]
 	public boolean searchMatrix2(int[][] matrix, int target)
 	{
 		if(matrix == null)
@@ -76,7 +76,7 @@ public class SearchA2DMatrixII
 		int midcol = locol + (hicol - locol)/2;
 		if(matrix[midrow][midcol] == target)
 			return true;
-		if(this.doMatrixBinSearch(matrix, target, lorow, locol, midrow, midcol))
+		if(matrix[midrow][midcol] > target && this.doMatrixBinSearch(matrix, target, lorow, locol, midrow, midcol))
 			return true;
 		if(this.doMatrixBinSearch(matrix, target, midrow, locol, hirow, midcol))
 			return true;
