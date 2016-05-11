@@ -8,6 +8,7 @@ Note: Your solution should be in logarithmic time complexity.
 public class FactorialTrailingZeroes
 {
 
+	//Accepted solution with 3 ms runtime
     public int trailingZeroes(int n)
     {
     	int zeros = 0;

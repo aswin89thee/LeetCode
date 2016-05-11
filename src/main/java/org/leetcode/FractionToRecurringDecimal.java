@@ -62,7 +62,7 @@ public class FractionToRecurringDecimal
     		numerator = numerator * 10;
     	}
     	String fraction = "";
-    	int mantissaIndex = 0;
+    	int fractionIndex = 0;
     	while(numerator != 0)
     	{
     		if(seenMap.get(numerator) != null)
@@ -72,17 +72,17 @@ public class FractionToRecurringDecimal
     			fraction = fraction.substring(0, seenIndex) + "(" + fraction.substring(seenIndex) + ")";
     			break;
     		}
-    		seenMap.put(numerator, mantissaIndex);
+    		seenMap.put(numerator, fractionIndex);
     		while(numerator < denominator)
     		{
     			fraction = fraction + "0";
     			numerator = numerator * 10;
-    			mantissaIndex++;
-    			seenMap.put(numerator, mantissaIndex);
+    			fractionIndex++;
+    			seenMap.put(numerator, fractionIndex);
     		}
     		long quot = numerator/denominator;
     		fraction += quot + "";
-    		mantissaIndex++;
+    		fractionIndex++;
     		long remainder = numerator % denominator;
     		if(remainder == 0)
     		{
