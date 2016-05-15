@@ -3,6 +3,20 @@ package org.leetcode;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Given a binary tree, return all root-to-leaf paths.
+
+For example, given the following binary tree:
+
+   1
+ /   \
+2     3
+ \
+  5
+All root-to-leaf paths are:
+
+
+ */
 public class BinaryTreePaths
 {
 	//Accepted solution with 4 ms runtime
