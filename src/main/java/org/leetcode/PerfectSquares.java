@@ -1,5 +1,6 @@
 package org.leetcode;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +12,30 @@ For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return
  */
 public class PerfectSquares
 {
+	//Accepted solution with 68 ms runtime
+	//Dynamic Programming solution
+	public int numSquares(int n)
+    {
+		if(n <= 3)
+    		return n;
+		int[] arr = new int[n+1];
+		Arrays.fill(arr, Integer.MAX_VALUE);
+		arr[0] = 0; arr[1] = 1; arr[2] = 2; arr[3] = 3;
+		for(int i = 4; i <= n; i++)
+		{
+			for(int j = 1; j * j <= i ; j++)
+			{
+				arr[i] = Math.min(arr[i], 1+arr[i-j*j]);
+			}
+		}
+		return arr[n];
+    }
 
 	//Accepted solution with 761 ms runtime
+	//This is how I initially approach DP problems.
+	//Write the recursive form, and then simply add a map to store the values at the end and retrieve at the beginning
 	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-    public int numSquares(int n)
+    public int numSquares2(int n)
     {
     	if(n <= 3)
     		return n;
@@ -38,6 +59,7 @@ public class PerfectSquares
 	{
 		PerfectSquares obj = new PerfectSquares();
 		System.out.println(obj.numSquares(12));
+		System.out.println(obj.numSquares(13));
 	}
 
 }
