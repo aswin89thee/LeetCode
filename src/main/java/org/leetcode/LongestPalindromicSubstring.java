@@ -4,17 +4,47 @@ package org.leetcode;
  * Given a string S, find the longest palindromic substring in S. 
  * You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.
  */
-public class LongestPalindrome
+public class LongestPalindromicSubstring
 {
+	//Accepted solution from programcreek.com (107 ms runtime)
+	//Although, this solution is the same as my dynamic programming solution from below (longestPalindrome2)
+	//Not sure why mine had time limit exceeded
+	public String longestPalindrome(String s) {
+	    if(s==null || s.length()<=1)
+	        return s;
+	 
+	    int len = s.length();
+	    int maxLen = 1;
+	    boolean [][] dp = new boolean[len][len];
+	 
+	    String longest = null;
+	    for(int l=0; l<s.length(); l++){
+	        for(int i=0; i<len-l; i++){
+	            int j = i+l;
+	            if(s.charAt(i)==s.charAt(j) && (j-i<=2||dp[i+1][j-1])){
+	                dp[i][j]=true;
+	 
+	                if(j-i+1>maxLen){
+	                   maxLen = j-i+1; 
+	                   longest = s.substring(i, j+1);
+	                }
+	            }
+	        }
+	    }
+	 
+	    return longest;
+	}
 	
 	//Dynamic programming solution. Still time limit exceeded
-	public String longestPalindrome(String s)
+	public String longestPalindrome2(String s)
 	{
 		if(s == null || s.length() <= 1)
 			return s;
-		String longestPal = "";
 		int len = s.length();
 		int[][] pals = new int[len][len];
+		int palStart = 0, palEnd = 0;
+		int longestPalLength = 0;
+		char[] arr = s.toCharArray();
 		for(int i = 0 ; i < len ; i++)
 		{
 			for(int j = 0 ; i+j < len ; j++)
@@ -25,19 +55,23 @@ public class LongestPalindrome
 					pals[j][k] = 1;
 					continue;
 				}
-				if(s.charAt(k) != s.charAt(j) || (j+1 < k-1 && pals[j+1][k - 1] != 1))
+				if(arr[k] != arr[j] || (j+1 < k-1 && pals[j+1][k - 1] != 1))
 					continue;
 				pals[j][k] = 1;
-				if(k - j + 1 > longestPal.length())
-					longestPal = s.substring(j,k+1);
+				if(k - j + 1 > longestPalLength)
+				{
+					longestPalLength = k+1-j;
+					palStart = j;
+					palEnd = k+1;
+				}
 			}
 		}
-		return longestPal;
+		return s.substring(palStart, palEnd);
 	}
 	
 	
 	//O(n^2) runtime and O(1) space solution. Time limit exceeded
-	public String longestPalindrome2(String s)
+	public String longestPalindrome3(String s)
 	{
 		if(s == null || s.isEmpty() || s.length() == 1)
 			return s;
@@ -70,7 +104,7 @@ public class LongestPalindrome
 
 	public static void main(String[] args)
 	{
-		LongestPalindrome obj = new LongestPalindrome();
+		LongestPalindromicSubstring obj = new LongestPalindromicSubstring();
 		String str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 		long start = System.currentTimeMillis();
 		String longestPal = obj.longestPalindrome(str);
