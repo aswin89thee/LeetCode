@@ -1,36 +1,50 @@
 package org.leetcode;
 
-public class JumpGame {
-	//This solution works but for a really long input it causes a stack overflow
-	//Check out the iterative version in haoel/leetcode for the right answer
-	public boolean canJump(int[] nums) {
-        if(nums == null || nums.length == 0) return true;
-        boolean[] haveCalculated = new boolean[nums.length];
-        boolean isJumpable = calculateJumpable(nums, 0, haveCalculated);
-        return isJumpable;
-    }
+/*
+ * Given an array of non-negative integers, you are initially positioned at the first index of the array.
 
-	private boolean calculateJumpable(int[] nums, int pos, boolean[] haveCalculated) {
-		if(pos >= nums.length) return false;
-		if(pos == nums.length - 1) return true;
-		if(nums[pos] == 0){
-			haveCalculated[pos] = true;
-			return false;
-		}
-		if(haveCalculated[pos]) return false;
-		int maxJumps = nums[pos];
-		int i;
-		for(i = 1 ; i <= maxJumps ; i++){
-			boolean val = calculateJumpable(nums,pos+i,haveCalculated);
-			if(val) return true;
-			else{
-				haveCalculated[pos+i] = true;
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+
+For example:
+A = [2,3,1,1,4], return true.
+
+A = [3,2,1,0,4], return false.
+ */
+public class JumpGame
+{
+
+	//Accepted solution with 2 ms runtime
+	//Simple solution - start checking from the right. 
+	//Keep track of the last position from which you are able to reach the end 
+	//Check if the current value is greater than the distance to the last reachable position
+	public boolean canJump(int[] nums)
+	{
+		if(nums.length <= 1)
+			return true;
+		int len = nums.length;
+		boolean[] jumpable = new boolean[len];
+		jumpable[len-1] = true;
+		int lastTrueIndex = len - 1;
+		for(int i = len - 2; i >= 0 ; i--)
+		{
+			if(nums[i] == 0)
+			{
+				jumpable[i] = false;
+				continue;
+			}
+			if(nums[i] >= lastTrueIndex - i)
+			{
+				jumpable[i] = true;
+				lastTrueIndex = i;
 			}
 		}
-		return false;
+		return jumpable[0];
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		JumpGame obj = new JumpGame();
 		int[] nums = {3,2,1,0,4};
 		System.out.println(obj.canJump(nums));
