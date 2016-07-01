@@ -4,38 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
+ * Follow up for N-Queens problem.
 
-
-Given an integer n, return all distinct solutions to the n-queens puzzle.
-
-Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
-
-For example,
-There exist two distinct solutions to the 4-queens puzzle:
-
-[
- [".Q..",  // Solution 1
-  "...Q",
-  "Q...",
-  "..Q."],
-
- ["..Q.",  // Solution 2
-  "Q...",
-  "...Q",
-  ".Q.."]
-]
+Now, instead outputting board configurations, return the total number of distinct solutions.
  */
-public class NQueens
+public class NQueensII
 {
-
-	//Accepted solution with 48 ms runtime.
-	//This solution is based on backtracking
-    public List<List<String>> solveNQueens(int n)
+	//Accepted solution with 47 ms runtime
+	//This is the same as my algorithm for NQueens. I simply return the size of the list here
+	public int totalNQueens(int n)
     {
         List<List<String>> solution = new ArrayList<List<String>>();
         solve(n, new ArrayList<String>(), solution);
-        return solution;
+        return solution.size();
     }
     
 	private void solve(int n, List<String> curSeq, List<List<String>> solution)
@@ -98,19 +79,4 @@ public class NQueens
 		
 		return true;
 	}
-
-	public static void main(String[] args)
-	{
-		NQueens obj = new NQueens();
-		int n = 3;
-		List<List<String>> solutions = obj.solveNQueens(n);
-		System.out.println("With n = " + n + ", there are " + solutions.size() + " solutions");
-		for(List<String> solution : solutions)
-		{
-			System.out.println("\n\n");
-			for(String row : solution)
-				System.out.println(row);
-		}
-	}
-
 }
