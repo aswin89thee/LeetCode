@@ -89,8 +89,8 @@ public class PalindromePartitioningII
 	public static void main(String[] args)
 	{
 		PalindromePartitioningII obj = new PalindromePartitioningII();
-		System.out.println(obj.minCut("aab")); //1
-//		System.out.println(obj.minCut("aabcac")); //2
+//		System.out.println(obj.minCut("aab")); //1
+		System.out.println(obj.minCut("aabcac")); //2
 //		System.out.println(obj.minCut("cbbbcc")); //1
 //		System.out.println(obj.minCut("cdd")); //1
 	}
