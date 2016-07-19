@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class InsertionSortList {
 
-	
+	//Wrong solution
 	public ListNode insertionSortList(ListNode head) {
 		Stack<ListNode> stack1 = new Stack<ListNode>();
 		Stack<ListNode> stack2 = new Stack<ListNode>();

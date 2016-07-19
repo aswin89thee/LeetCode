@@ -1,6 +1,7 @@
 package org.leetcode;
 
 public class ValidNumber {
+	//Wrong solution
 	public boolean isNumber(String s) {
 		boolean isValid = true;
 		if(s.equals(""))return true;
